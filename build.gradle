@@ -33,22 +33,17 @@ project.buildnumber = System.getenv('BUILD_NUMBER') != null ? System.getenv('BUI
 
 version = "${mod_version}.${buildnumber}"
 group = "com.cricketcraft.chisel" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = dev ? "Chisel2_DEV" : "Chisel2"
+archivesBaseName = dev ? "CTMLib2_DEV" : "CTMLib"
 
 minecraft {
     version = "${minecraft_version}-${forge_version}"
     runDir = "run"
 
-    replaceIn "Chisel.java"
+    replaceIn "CTMLib.java"
     replace "@VERSION@", project.version
 }
 
 repositories {
-	maven {
-		name 'Chicken Bones Repo'
-		url "http://chickenbones.net/maven/"
-	}
-
     maven {
 		name 'Prof Mobius Repo'
 		url "http://mobiusstrip.eu/maven"
@@ -56,12 +51,7 @@ repositories {
 }
 
 dependencies {
-    //compile "mcp.mobius.waila:Waila:${waila_version}_${minecraft_version}:dev"
-	compile "codechicken:CodeChickenLib:${minecraft_version}-${ccl_version}:dev"
-	compile "codechicken:CodeChickenCore:${minecraft_version}-${ccc_version}:dev"
-	compile "codechicken:NotEnoughItems:${minecraft_version}-${nei_version}:dev"
-    compile "codechicken:ForgeMultipart:${minecraft_version}-${fmp_version}:dev"
-    compile "com.pahimar.ee3:EquivalentExchange3:1.7.10-0.3.505:dev"
+   compile "mcp.mobius.waila:Waila:${waila_version}_${minecraft_version}:dev"
 }
 
 processResources
@@ -90,14 +80,6 @@ task deobfJar(type: Jar) {
     classifier = 'deobf'
 }
 
-// Create API jar with sources and compiled files
-task apiJar(type: Jar) {
-    from sourceSets.main.allSource
-    from sourceSets.main.output
-	include 'com/cricketcraft/chisel/api/**/*'
-    classifier = 'api'
-}
-
 // Create source attachment for dev jar
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
@@ -107,7 +89,6 @@ task sourcesJar(type: Jar) {
 artifacts {
     archives deobfJar
     archives sourcesJar
-    archives apiJar
 }
 
 publishing {
@@ -117,7 +98,6 @@ publishing {
             artifact jar
             artifact deobfJar
             artifact sourcesJar
-            artifact apiJar
         }
     }
 
@@ -164,7 +144,7 @@ curse {
     changelog = System.getenv("CHANGELOG").equals("none") ? getChangelogText() : System.getenv("CHANGELOG")
     releaseType = 'release'
     displayName = "Chisel 2 - ${mod_version}"
-    additionalArtifact deobfJar, sourcesJar, apiJar
+    additionalArtifact deobfJar, sourcesJar
 }
 
 idea { module { inheritOutputDirs = true } }
