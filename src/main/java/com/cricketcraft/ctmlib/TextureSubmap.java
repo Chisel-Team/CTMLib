@@ -2,6 +2,7 @@ package com.cricketcraft.ctmlib;
 
 import java.util.List;
 
+import lombok.experimental.Delegate;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * This class is used to split up a large IIcon into smaller "submapped" icons used for CTM and other texture manipulation.
  */
-public class TextureSubmap {
+public class TextureSubmap implements IIcon {
 
 	private static List<TextureSubmap> submaps = Lists.newArrayList();
 	private static TextureSubmap dummy = new TextureSubmap(null, 0, 0);
@@ -24,8 +25,10 @@ public class TextureSubmap {
 	}
 
 	private int width, height;
+	@Delegate
 	private IIcon baseIcon;
-	private IIcon[][] icons;
+	
+	protected IIcon[][] icons;
 
 	/**
 	 * Construct a new submap. A submap is not required to be square, but it is required to be rectangular.
@@ -78,7 +81,7 @@ public class TextureSubmap {
 	 * For internal use only, this is used to create the virtual "subicons" used in the map.
 	 */
 	@SubscribeEvent
-	public final void TexturesStitched(TextureStitchEvent.Post event) {
+	public void TexturesStitched(TextureStitchEvent.Post event) {
 		for (TextureSubmap ts : submaps) {
 			for (int x = 0; x < ts.width; x++) {
 				for (int y = 0; y < ts.height; y++) {
