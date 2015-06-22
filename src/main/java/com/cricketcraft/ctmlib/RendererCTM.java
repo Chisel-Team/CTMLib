@@ -46,7 +46,7 @@ public class RendererCTM implements ISimpleBlockRenderingHandler {
 				rb.blockAccess = world;
 				if (rb instanceof RenderBlocksCTM) {
 					RenderBlocksCTM rbctm = (RenderBlocksCTM) rb;
-					rbctm.manager = rbctm.manager == null ? var.getSubmapManager() : rbctm.manager;
+//					rbctm.manager = rbctm.manager == null ? var.getSubmapManager() : rbctm.manager;
 					rbctm.rendererOld = rbctm.rendererOld == null ? rendererOld : rbctm.rendererOld;
 				}
 				return rb;
