@@ -44,10 +44,8 @@ minecraft {
 }
 
 repositories {
-    maven {
-		name 'Prof Mobius Repo'
-		url "http://mobiusstrip.eu/maven"
-	}
+    maven { url = "http://mobiusstrip.eu/maven" }
+    maven { url = "http://chickenbones.net/maven/" }
 }
 
 dependencies {
