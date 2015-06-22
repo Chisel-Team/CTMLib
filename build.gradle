@@ -21,6 +21,10 @@ apply plugin: 'forge'
 apply plugin: 'maven-publish'
 apply plugin: 'curseforge'
 
+compileJava {
+	options.encoding = 'UTF-8'
+}
+
 import org.ajoberstar.grgit.Grgit
 
 def repo = Grgit.open(project.file('.'))
@@ -51,7 +55,7 @@ repositories {
 
 dependencies {
     compile "mcp.mobius.waila:Waila:${waila_version}_${minecraft_version}:dev"
-    compile "com.cricketcraft.chisel:Chisel2:2.4.0.129:api"
+    compile "com.cricketcraft.chisel:Chisel2:2.4.0.130:api"
     compile "org.projectlombok:lombok:1.16.4"
 }
 
