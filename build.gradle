@@ -46,10 +46,13 @@ minecraft {
 repositories {
     maven { url = "http://mobiusstrip.eu/maven" }
     maven { url = "http://chickenbones.net/maven/" }
+    maven { url = "http://coloredlightscore.us.to/maven/chisel-2-dev/" }
 }
 
 dependencies {
-   compile "mcp.mobius.waila:Waila:${waila_version}_${minecraft_version}:dev"
+    compile "mcp.mobius.waila:Waila:${waila_version}_${minecraft_version}:dev"
+    compile "com.cricketcraft.chisel:Chisel2:2.4.0.129:api"
+    compile "org.projectlombok:lombok:1.16.4"
 }
 
 processResources
@@ -71,6 +74,10 @@ processResources
                 exclude 'mcmod.info'
             }
         }
+
+jar {
+    exclude "com/cricketcraft/chisel/**/*"
+}
 
 // Create deobf dev jars
 task deobfJar(type: Jar) {
