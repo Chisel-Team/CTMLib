@@ -182,7 +182,7 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	protected int bx, by, bz;
 	
-	private boolean inWorld = false;
+	protected boolean inWorld = false;
 
 	@Override
 	public boolean renderStandardBlock(Block block, int x, int y, int z) {
@@ -192,6 +192,9 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 		tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
 		tessellator.addTranslation(x, y, z);
+		if (rendererOld != null && rendererOld.hasOverrideBlockTexture()) {
+			setOverrideBlockTexture(rendererOld.overrideBlockTexture);
+		}
 		inWorld = true;
 		boolean res = super.renderStandardBlock(block, x, y, z);
 		inWorld = false;
@@ -333,8 +336,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceXNeg(Block block, double x, double y, double z, IIcon icon) {
-		if (!inWorld || (rendererOld != null && rendererOld.hasOverrideBlockTexture())) {
-			IIcon i = rendererOld.hasOverrideBlockTexture() ? rendererOld.overrideBlockTexture : icon;
+		if (!inWorld || hasOverrideBlockTexture()) {
+			IIcon i = hasOverrideBlockTexture() ? overrideBlockTexture : icon;
 
 			tessellator.addVertexWithUV(renderMinX, renderMaxY, renderMinZ, i.getMinU(), i.getMinV());
 			tessellator.addVertexWithUV(renderMinX, renderMinY, renderMinZ, i.getMinU(), i.getMaxV());
@@ -365,8 +368,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceXPos(Block block, double x, double y, double z, IIcon icon) {
-		if (!inWorld || (rendererOld != null && rendererOld.hasOverrideBlockTexture())) {
-			IIcon i = rendererOld.hasOverrideBlockTexture() ? rendererOld.overrideBlockTexture : icon;
+		if (!inWorld || hasOverrideBlockTexture()) {
+			IIcon i = hasOverrideBlockTexture() ? overrideBlockTexture : icon;
 
 			tessellator.addVertexWithUV(renderMaxX, renderMaxY, renderMaxZ, i.getMaxU(), i.getMinV());
 			tessellator.addVertexWithUV(renderMaxX, renderMinY, renderMaxZ, i.getMaxU(), i.getMaxV());
@@ -397,8 +400,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceZNeg(Block block, double x, double y, double z, IIcon icon) {
-		if (!inWorld || (rendererOld != null && rendererOld.hasOverrideBlockTexture())) {
-			IIcon i = rendererOld.hasOverrideBlockTexture() ? rendererOld.overrideBlockTexture : icon;
+		if (!inWorld || hasOverrideBlockTexture()) {
+			IIcon i = hasOverrideBlockTexture() ? overrideBlockTexture : icon;
 
 			tessellator.addVertexWithUV(renderMaxX, renderMaxY, renderMinZ, i.getMaxU(), i.getMinV());
 			tessellator.addVertexWithUV(renderMaxX, renderMinY, renderMinZ, i.getMaxU(), i.getMaxV());
@@ -429,8 +432,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceZPos(Block block, double x, double y, double z, IIcon icon) {
-		if (!inWorld || (rendererOld != null && rendererOld.hasOverrideBlockTexture())) {
-			IIcon i = rendererOld.hasOverrideBlockTexture() ? rendererOld.overrideBlockTexture : icon;
+		if (!inWorld || hasOverrideBlockTexture()) {
+			IIcon i = hasOverrideBlockTexture() ? overrideBlockTexture : icon;
 
 			tessellator.addVertexWithUV(renderMinX, renderMaxY, renderMaxZ, i.getMinU(), i.getMinV());
 			tessellator.addVertexWithUV(renderMinX, renderMinY, renderMaxZ, i.getMinU(), i.getMaxV());
@@ -461,8 +464,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceYNeg(Block block, double x, double y, double z, IIcon icon) {
-		if (!inWorld || (rendererOld != null && rendererOld.hasOverrideBlockTexture())) {
-			IIcon i = rendererOld.hasOverrideBlockTexture() ? rendererOld.overrideBlockTexture : icon;
+		if (!inWorld || hasOverrideBlockTexture()) {
+			IIcon i = hasOverrideBlockTexture() ? overrideBlockTexture : icon;
 
 			tessellator.addVertexWithUV(renderMinX, renderMinY, renderMaxZ, i.getMinU(), i.getMaxV());
 			tessellator.addVertexWithUV(renderMinX, renderMinY, renderMinZ, i.getMinU(), i.getMinV());
@@ -493,8 +496,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceYPos(Block block, double x, double y, double z, IIcon icon) {
-		if (!inWorld || (rendererOld != null && rendererOld.hasOverrideBlockTexture())) {
-			IIcon i = rendererOld.hasOverrideBlockTexture() ? rendererOld.overrideBlockTexture : icon;
+		if (!inWorld || hasOverrideBlockTexture()) {
+			IIcon i = hasOverrideBlockTexture() ? overrideBlockTexture : icon;
 
 			tessellator.addVertexWithUV(renderMinX, renderMaxY, renderMinZ, i.getMinU(), i.getMinV());
 			tessellator.addVertexWithUV(renderMinX, renderMaxY, renderMaxZ, i.getMinU(), i.getMaxV());

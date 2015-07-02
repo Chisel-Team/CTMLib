@@ -144,14 +144,14 @@ curse {
     dependsOn 'reobf'
 
     onlyIf {
-        return project.hasProperty('chisel_curseforge_key') && System.getenv("CURSE") != null && System.getenv("CURSE").equalsIgnoreCase("true")
+        return project.hasProperty('curseforge_key') && System.getenv("CURSE") != null && System.getenv("CURSE").equalsIgnoreCase("true")
     }
 
-    if (project.hasProperty('chisel_curseforge_key')) apiKey = project.chisel_curseforge_key
+    if (project.hasProperty('curseforge_key')) apiKey = project.curseforge_key
     projectId = project.projectId
     changelog = System.getenv("CHANGELOG").equals("none") ? getChangelogText() : System.getenv("CHANGELOG")
     releaseType = 'release'
-    displayName = "Chisel 2 - ${mod_version}"
+    displayName = "CTMLib - ${mod_version}.${buildnumber}"
     additionalArtifact deobfJar, sourcesJar
 }
 
