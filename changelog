@@ -1,2 +1,8 @@
-1.0.0
+1.0.1:
+Changes
+- inWorld is now protected in RenderBlocksCTM
+Fixes
+- Fix blocks not connecting to IFacade
+
+1.0.0:
 Initial Release
