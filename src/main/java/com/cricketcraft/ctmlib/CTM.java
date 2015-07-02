@@ -300,6 +300,6 @@ public class CTM {
 		if (blk instanceof IFacade) {
 			blk = ((IFacade) blk).getFacade(world, x, y, z, side);
 		}
-		return world.getBlock(x, y, z);
+		return blk;
 	}
 }
