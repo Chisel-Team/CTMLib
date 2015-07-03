@@ -28,15 +28,20 @@ public class RendererCTM implements ISimpleBlockRenderingHandler {
 	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 		IVariationInfo var = ((ICarvable) block).getVariation(new ItemStack(block, 1, metadata));
-		Drawing.drawBlock(block, metadata, getContext(renderer, block, Minecraft.getMinecraft().theWorld, var, metadata));
+		RenderBlocks rb = getContext(renderer, block, Minecraft.getMinecraft().theWorld, var, metadata);
+		Drawing.drawBlock(block, metadata, rb);
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+		rb.unlockBlockBounds();
 	}
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks rendererOld) {
 		int meta = world.getBlockMetadata(x, y, z);
 		IVariationInfo var = ((ICarvable) block).getVariation(world, x, y, z, meta);
-		return getContext(rendererOld, block, world, var, meta).renderStandardBlock(block, x, y, z);
+		RenderBlocks rb = getContext(rendererOld, block, world, var, meta);
+		boolean ret = rb.renderStandardBlock(block, x, y, z);
+		rb.unlockBlockBounds();
+		return ret;
 	}
 	
 	private RenderBlocks getContext(RenderBlocks rendererOld, Block block, IBlockAccess world, IVariationInfo var, int meta) {
@@ -44,6 +49,9 @@ public class RendererCTM implements ISimpleBlockRenderingHandler {
 			RenderBlocks rb = var.getSubmapManager().createRenderContext(rendererOld, block, world);
 			if (rb != null && rb != rendererOld) {
 				rb.blockAccess = world;
+				if (rendererOld.lockBlockBounds) {
+					rb.overrideBlockBounds(rendererOld.renderMinX, rendererOld.renderMinY, rendererOld.renderMinZ, rendererOld.renderMaxX, rendererOld.renderMaxY, rendererOld.renderMaxZ);
+				}
 				if (rb instanceof RenderBlocksCTM) {
 					RenderBlocksCTM rbctm = (RenderBlocksCTM) rb;
 					rbctm.manager = rbctm.manager == null ? var.getSubmapManager() : rbctm.manager;
