@@ -10,6 +10,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.cricketcraft.chisel.api.IFacade;
+import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 
 import static com.cricketcraft.ctmlib.Dir.*;
@@ -69,25 +70,24 @@ public class CTM {
 
 	/** Some hardcoded offset values for the different corner indeces */
 	protected static int[] submapOffsets = { 4, 5, 1, 0 };
-	protected static TIntObjectMap<Dir[]> submapMap = new TIntObjectHashMap<Dir[]>();
-	protected static EnumMap<Dir, Boolean> connectionMap = Maps.newEnumMap(Dir.class);
 	/** For use via the Chisel 2 config only, altering this could cause unintended behavior */
 	public static boolean disableObscuredFaceCheckConfig = false;
 
-	public Boolean disableObscuredFaceCheck = null;
+	public Optional<Boolean> disableObscuredFaceCheck = Optional.absent();
+	
+	protected TIntObjectMap<Dir[]> submapMap = new TIntObjectHashMap<Dir[]>();
+	protected EnumMap<Dir, Boolean> connectionMap = Maps.newEnumMap(Dir.class);
 
-	static {
+	protected CTM() {
 		for (Dir dir : Dir.VALUES) {
 			connectionMap.put(dir, false);
 		}
+		
 		// Mapping the different corner indeces to their respective dirs
 		submapMap.put(0, new Dir[] { BOTTOM, LEFT, BOTTOM_LEFT });
 		submapMap.put(1, new Dir[] { BOTTOM, RIGHT, BOTTOM_RIGHT });
 		submapMap.put(2, new Dir[] { TOP, RIGHT, TOP_RIGHT });
 		submapMap.put(3, new Dir[] { TOP, LEFT, TOP_LEFT });
-	}
-
-	protected CTM() {
 	}
 
 	public static CTM getInstance() {
@@ -228,7 +228,7 @@ public class CTM {
 		int y2 = y + dir.offsetY;
 		int z2 = z + dir.offsetZ;
 
-		boolean disableObscured = disableObscuredFaceCheck == null ? disableObscuredFaceCheckConfig : disableObscuredFaceCheck;
+		boolean disableObscured = disableObscuredFaceCheck.or(disableObscuredFaceCheckConfig);
 
 		Block con = getBlockOrFacade(world, x, y, z, dir.ordinal());
 		Block obscuring = disableObscured ? null : getBlockOrFacade(world, x2, y2, z2, dir.ordinal());
