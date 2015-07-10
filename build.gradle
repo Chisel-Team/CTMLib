@@ -35,9 +35,9 @@ boolean dev = project.hasProperty('chisel_dev') && project.chisel_dev.equalsIgno
 ext.buildnumber = 0
 project.buildnumber = System.getenv('BUILD_NUMBER') != null ? System.getenv('BUILD_NUMBER') : project.ext.gitHash
 
-version = "${mod_version}.${buildnumber}"
+version = "${mod_version}-${buildnumber}"
 group = "com.cricketcraft.ctmlib" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = dev ? "CTMLib2_DEV" : "CTMLib"
+archivesBaseName = dev ? "CTMLib_DEV" : "CTMLib"
 
 minecraft {
     version = "${minecraft_version}-${forge_version}"
