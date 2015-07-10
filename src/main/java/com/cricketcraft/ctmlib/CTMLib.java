@@ -1,12 +1,7 @@
 package com.cricketcraft.ctmlib;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.ModAPIManager;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 import static com.cricketcraft.ctmlib.CTMLib.*;
 
@@ -25,11 +20,5 @@ public class CTMLib {
 			chiselPresent = ModAPIManager.INSTANCE.hasAPI("ChiselAPI");
 		}
 		return chiselPresent;
-	}
-
-	@EventHandler
-	@SideOnly(Side.CLIENT)
-	public void preInit(FMLPreInitializationEvent event) {
-		RenderingRegistry.registerBlockHandler(new RendererCTM());
 	}
 }
