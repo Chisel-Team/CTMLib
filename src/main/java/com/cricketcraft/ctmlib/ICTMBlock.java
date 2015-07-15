@@ -2,12 +2,12 @@ package com.cricketcraft.ctmlib;
 
 import net.minecraft.world.IBlockAccess;
 
-public interface ICTMBlock {
+public interface ICTMBlock<T extends ISubmapManager> {
 
 	/**
 	 * Gets the {@link ISubmapManager} for this block in the world.
 	 */
-	ISubmapManager getManager(IBlockAccess world, int x, int y, int z, int meta);
+	T getManager(IBlockAccess world, int x, int y, int z, int meta);
 
 	/**
 	 * Gets the {@link ISubmapManager} for this block in item form.
@@ -15,6 +15,6 @@ public interface ICTMBlock {
 	 * @param meta
 	 *            The meta (damage) of the stack.
 	 */
-	ISubmapManager getManager(int meta);
+	T getManager(int meta);
 
 }
