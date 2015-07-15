@@ -23,7 +23,7 @@ public class CTMRenderer implements ISimpleBlockRenderingHandler {
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-		RenderBlocks rb = getContext(renderer, block, Minecraft.getMinecraft().theWorld, ((ICTMBlock)block).getManager(metadata), metadata);
+		RenderBlocks rb = getContext(renderer, block, Minecraft.getMinecraft().theWorld, ((ICTMBlock<?>)block).getManager(metadata), metadata);
 		Drawing.drawBlock(block, metadata, rb);
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 		rb.unlockBlockBounds();
@@ -32,7 +32,7 @@ public class CTMRenderer implements ISimpleBlockRenderingHandler {
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks rendererOld) {
 		int meta = world.getBlockMetadata(x, y, z);
-		RenderBlocks rb = getContext(rendererOld, block, world, ((ICTMBlock)block).getManager(world, x, y, z, meta), meta);
+		RenderBlocks rb = getContext(rendererOld, block, world, ((ICTMBlock<?>)block).getManager(world, x, y, z, meta), meta);
 		boolean ret = rb.renderStandardBlock(block, x, y, z);
 		rb.unlockBlockBounds();
 		return ret;

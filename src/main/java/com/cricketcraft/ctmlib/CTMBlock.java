@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * <p>
  * This class does <i>not</i> handle metadata-dependent textures.
  */
-public class CTMBlock extends Block implements ICTMBlock {
+public class CTMBlock extends Block implements ICTMBlock<ISubmapManager> {
 
 	@SideOnly(Side.CLIENT)
 	private SubmapManagerCTM manager;

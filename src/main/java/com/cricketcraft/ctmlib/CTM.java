@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.cricketcraft.chisel.api.IConnectable;
 import com.cricketcraft.chisel.api.IFacade;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
@@ -224,6 +225,11 @@ public class CTM {
 	 * @return True if the given block can connect to the given location on the given side.
 	 */
 	public boolean isConnected(IBlockAccess world, int x, int y, int z, ForgeDirection dir, Block block, int meta) {
+	
+		if (CTMLib.chiselLoaded() && connectionBlocked(world, x, y, z, dir)) {
+			return false;
+		}
+		
 		int x2 = x + dir.offsetX;
 		int y2 = y + dir.offsetY;
 		int z2 = z + dir.offsetZ;
@@ -249,6 +255,14 @@ public class CTM {
 		ret &= !(obscuring.equals(block) && getBlockOrFacadeMetadata(world, x2, y2, z2, dir.ordinal()) == meta);
 
 		return ret;
+	}
+
+	private boolean connectionBlocked(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
+		Block block = world.getBlock(x, y, z);
+		if (block instanceof IConnectable) {
+			return !((IConnectable) block).canConnectCTM(world, x, y, z, side);
+		}
+		return false;
 	}
 
 	/**
