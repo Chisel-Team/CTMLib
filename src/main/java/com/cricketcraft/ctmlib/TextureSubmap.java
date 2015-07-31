@@ -81,12 +81,16 @@ public class TextureSubmap implements IIcon {
 	 * For internal use only, this is used to create the virtual "subicons" used in the map.
 	 */
 	@SubscribeEvent
-	public void TexturesStitched(TextureStitchEvent.Post event) {
+	public final void TexturesStitched(TextureStitchEvent.Post event) {
 		for (TextureSubmap ts : submaps) {
-			for (int x = 0; x < ts.width; x++) {
-				for (int y = 0; y < ts.height; y++) {
-					ts.icons[x][y] = new TextureVirtual(ts.getBaseIcon(), ts.width, ts.height, x, y);
-				}
+			ts.texturesStitched();
+		}
+	}
+	
+	public void texturesStitched() {
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				icons[x][y] = new TextureVirtual(getBaseIcon(), width, height, x, y);
 			}
 		}
 	}
