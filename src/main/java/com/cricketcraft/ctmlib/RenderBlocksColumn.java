@@ -12,6 +12,7 @@ public class RenderBlocksColumn extends RenderBlocks {
 
 	public TextureSubmap submap;
 	public IIcon iconTop;
+	private boolean inWorld;
 
 	private IIcon sides[] = new IIcon[6];
 	private CTM ctm = CTM.getInstance();
@@ -28,6 +29,7 @@ public class RenderBlocksColumn extends RenderBlocks {
 	@Override
 	public boolean renderStandardBlock(Block block, int x, int y, int z) {
 		int metadata = blockAccess.getBlockMetadata(x, y, z);
+		inWorld = true;
 
 		boolean yp = connected(blockAccess, x, y + 1, z, block, metadata);
 		boolean yn = connected(blockAccess, x, y - 1, z, block, metadata);
@@ -118,6 +120,7 @@ public class RenderBlocksColumn extends RenderBlocks {
 		uvRotateTop = 0;
 		uvRotateBottom = 0;
 
+		inWorld = false;
 		return flag;
 	}
 
@@ -152,6 +155,6 @@ public class RenderBlocksColumn extends RenderBlocks {
 	}
 
 	private IIcon getIcon(IIcon defaultIcon, int side) {
-		return sides[side] == null ? defaultIcon : sides[side];
+		return sides[side] == null || !inWorld ? defaultIcon : sides[side];
 	}
 }
