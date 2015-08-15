@@ -2,8 +2,8 @@ package com.cricketcraft.ctmlib;
 
 import static com.cricketcraft.ctmlib.RenderBlocksCTM.SubSide.*;
 import static com.cricketcraft.ctmlib.RenderBlocksCTM.Vert.*;
-
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
@@ -180,7 +180,7 @@ public class RenderBlocksCTM extends RenderBlocks {
 	protected float[][] grnmap = new float[3][3];
 	protected float[][] blumap = new float[3][3];
 
-	protected int bx, by, bz;
+	protected int bx, by, bz, meta;
 	
 	protected boolean inWorld = false;
 
@@ -189,6 +189,7 @@ public class RenderBlocksCTM extends RenderBlocks {
 		bx = x;
 		by = y;
 		bz = z;
+		meta = Minecraft.getMinecraft().theWorld.getBlockMetadata(x, y, z);
 
 		tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
 		tessellator.addTranslation(x, y, z);
@@ -304,7 +305,7 @@ public class RenderBlocksCTM extends RenderBlocks {
 		}
 
 		if (map == null) {
-			icon = getBlockIconFromSide(block, side.normal.ordinal());
+			icon = getBlockIconFromSideAndMetadata(block, side.normal.ordinal(), meta);
 		} else {
 			int x = iconIndex % map.getWidth();
 			int y = iconIndex / map.getHeight();
@@ -336,13 +337,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceXNeg(Block block, double x, double y, double z, IIcon icon) {
-		if (!inWorld || hasOverrideBlockTexture()) {
-			IIcon i = hasOverrideBlockTexture() ? overrideBlockTexture : icon;
-
-			tessellator.addVertexWithUV(renderMinX, renderMaxY, renderMinZ, i.getMinU(), i.getMinV());
-			tessellator.addVertexWithUV(renderMinX, renderMinY, renderMinZ, i.getMinU(), i.getMaxV());
-			tessellator.addVertexWithUV(renderMinX, renderMinY, renderMaxZ, i.getMaxU(), i.getMaxV());
-			tessellator.addVertexWithUV(renderMinX, renderMaxY, renderMaxZ, i.getMaxU(), i.getMinV());
+		if (!inWorld || hasOverrideBlockTexture() || submap == null) {
+			super.renderFaceXNeg(block, 0, 0, 0, icon);
 		} else {
 			int tex[] = ctm.getSubmapIndices(blockAccess, bx, by, bz, 4);
 
@@ -368,13 +364,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceXPos(Block block, double x, double y, double z, IIcon icon) {
-		if (!inWorld || hasOverrideBlockTexture()) {
-			IIcon i = hasOverrideBlockTexture() ? overrideBlockTexture : icon;
-
-			tessellator.addVertexWithUV(renderMaxX, renderMaxY, renderMaxZ, i.getMaxU(), i.getMinV());
-			tessellator.addVertexWithUV(renderMaxX, renderMinY, renderMaxZ, i.getMaxU(), i.getMaxV());
-			tessellator.addVertexWithUV(renderMaxX, renderMinY, renderMinZ, i.getMinU(), i.getMaxV());
-			tessellator.addVertexWithUV(renderMaxX, renderMaxY, renderMinZ, i.getMinU(), i.getMinV());
+		if (!inWorld || hasOverrideBlockTexture() || submap == null) {
+			super.renderFaceXPos(block, 0, 0, 0, icon);
 		} else {
 			int tex[] = ctm.getSubmapIndices(blockAccess, bx, by, bz, 5);
 
@@ -400,13 +391,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceZNeg(Block block, double x, double y, double z, IIcon icon) {
-		if (!inWorld || hasOverrideBlockTexture()) {
-			IIcon i = hasOverrideBlockTexture() ? overrideBlockTexture : icon;
-
-			tessellator.addVertexWithUV(renderMaxX, renderMaxY, renderMinZ, i.getMaxU(), i.getMinV());
-			tessellator.addVertexWithUV(renderMaxX, renderMinY, renderMinZ, i.getMaxU(), i.getMaxV());
-			tessellator.addVertexWithUV(renderMinX, renderMinY, renderMinZ, i.getMinU(), i.getMaxV());
-			tessellator.addVertexWithUV(renderMinX, renderMaxY, renderMinZ, i.getMinU(), i.getMinV());
+		if (!inWorld || hasOverrideBlockTexture() || submap == null) {
+			super.renderFaceZNeg(block, 0, 0, 0, icon);
 		} else {
 			int tex[] = ctm.getSubmapIndices(blockAccess, bx, by, bz, 2);
 
@@ -432,13 +418,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceZPos(Block block, double x, double y, double z, IIcon icon) {
-		if (!inWorld || hasOverrideBlockTexture()) {
-			IIcon i = hasOverrideBlockTexture() ? overrideBlockTexture : icon;
-
-			tessellator.addVertexWithUV(renderMinX, renderMaxY, renderMaxZ, i.getMinU(), i.getMinV());
-			tessellator.addVertexWithUV(renderMinX, renderMinY, renderMaxZ, i.getMinU(), i.getMaxV());
-			tessellator.addVertexWithUV(renderMaxX, renderMinY, renderMaxZ, i.getMaxU(), i.getMaxV());
-			tessellator.addVertexWithUV(renderMaxX, renderMaxY, renderMaxZ, i.getMaxU(), i.getMinV());
+		if (!inWorld || hasOverrideBlockTexture() || submap == null) {
+			super.renderFaceZPos(block, 0, 0, 0, icon);
 		} else {
 			int tex[] = ctm.getSubmapIndices(blockAccess, bx, by, bz, 3);
 
@@ -464,13 +445,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceYNeg(Block block, double x, double y, double z, IIcon icon) {
-		if (!inWorld || hasOverrideBlockTexture()) {
-			IIcon i = hasOverrideBlockTexture() ? overrideBlockTexture : icon;
-
-			tessellator.addVertexWithUV(renderMinX, renderMinY, renderMaxZ, i.getMinU(), i.getMaxV());
-			tessellator.addVertexWithUV(renderMinX, renderMinY, renderMinZ, i.getMinU(), i.getMinV());
-			tessellator.addVertexWithUV(renderMaxX, renderMinY, renderMinZ, i.getMaxU(), i.getMinV());
-			tessellator.addVertexWithUV(renderMaxX, renderMinY, renderMaxZ, i.getMaxU(), i.getMaxV());
+		if (!inWorld || hasOverrideBlockTexture() || submap == null) {
+			super.renderFaceYNeg(block, 0, 0, 0, icon);
 		} else {
 			int tex[] = ctm.getSubmapIndices(blockAccess, bx, by, bz, 0);
 
@@ -496,13 +472,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceYPos(Block block, double x, double y, double z, IIcon icon) {
-		if (!inWorld || hasOverrideBlockTexture()) {
-			IIcon i = hasOverrideBlockTexture() ? overrideBlockTexture : icon;
-
-			tessellator.addVertexWithUV(renderMinX, renderMaxY, renderMinZ, i.getMinU(), i.getMinV());
-			tessellator.addVertexWithUV(renderMinX, renderMaxY, renderMaxZ, i.getMinU(), i.getMaxV());
-			tessellator.addVertexWithUV(renderMaxX, renderMaxY, renderMaxZ, i.getMaxU(), i.getMaxV());
-			tessellator.addVertexWithUV(renderMaxX, renderMaxY, renderMinZ, i.getMaxU(), i.getMinV());
+		if (!inWorld || hasOverrideBlockTexture() || submap == null) {
+			super.renderFaceYPos(block, 0, 0, 0, icon);
 		} else {
 			int tex[] = ctm.getSubmapIndices(blockAccess, bx, by, bz, 1);
 
