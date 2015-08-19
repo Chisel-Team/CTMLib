@@ -2,6 +2,7 @@ package com.cricketcraft.ctmlib;
 
 import static com.cricketcraft.ctmlib.RenderBlocksCTM.SubSide.*;
 import static com.cricketcraft.ctmlib.RenderBlocksCTM.Vert.*;
+import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -182,6 +183,7 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	protected int bx, by, bz, meta;
 	
+	@Getter
 	protected boolean inWorld = false;
 
 	@Override
