@@ -1,4 +1,4 @@
-package com.cricketcraft.ctmlib;
+package team.chisel.ctmlib;
 
 import lombok.Getter;
 import net.minecraft.block.Block;

@@ -1,4 +1,4 @@
-package com.cricketcraft.ctmlib;
+package team.chisel.ctmlib;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

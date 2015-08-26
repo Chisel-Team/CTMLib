@@ -1,4 +1,4 @@
-package com.cricketcraft.ctmlib;
+package team.chisel.ctmlib;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;

@@ -1,4 +1,4 @@
-package com.cricketcraft.ctmlib;
+package team.chisel.ctmlib;
 
 import cpw.mods.fml.common.ModAPIManager;
 

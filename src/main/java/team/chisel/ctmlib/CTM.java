@@ -1,4 +1,4 @@
-package com.cricketcraft.ctmlib;
+package team.chisel.ctmlib;
 
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
@@ -14,7 +14,7 @@ import com.cricketcraft.chisel.api.IFacade;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 
-import static com.cricketcraft.ctmlib.Dir.*;
+import static team.chisel.ctmlib.Dir.*;
 
 // @formatter:off
 /**
@@ -23,33 +23,33 @@ import static com.cricketcraft.ctmlib.Dir.*;
  * has nothing to connect to.  This texture has all of the outside corner quadrants  The texture-ctm.png contains the
  * rest of the quadrants.
  * <pre><blockquote>
- * ┌─────────────────┐ ┌────────────────────────────────┐
+ * ┌─────────────────�? ┌────────────────────────────────�?
  * │ texture.png     │ │ texture-ctm.png                │
- * │ ╔══════╤══════╗ │ │  ──────┼────── ║ ─────┼───── ║ │
+ * │ ╔�?�?�?�?�?�?╤�?�?�?�?�?�?╗ │ │  ──────┼────── ║ ─────┼───── ║ │
  * │ ║      │      ║ │ │ │      │      │║      │      ║ │
  * │ ║ 16   │ 17   ║ │ │ │ 0    │ 1    │║ 2    │ 3    ║ │
  * │ ╟──────┼──────╢ │ │ ┼──────┼──────┼╟──────┼──────╢ │
  * │ ║      │      ║ │ │ │      │      │║      │      ║ │
  * │ ║ 18   │ 19   ║ │ │ │ 4    │ 5    │║ 6    │ 7    ║ │
- * │ ╚══════╧══════╝ │ │  ──────┼────── ║ ─────┼───── ║ │
- * └─────────────────┘ │ ═══════╤═══════╝ ─────┼───── ╚ │
+ * │ ╚�?�?�?�?�?�?╧�?�?�?�?�?�?�? │ │  ──────┼────── ║ ─────┼───── ║ │
+ * └─────────────────┘ │ �?�?�?�?�?�?�?╤�?�?�?�?�?�?�?�? ─────┼───── ╚ │
  *                     │ │      │      ││      │      │ │
  *                     │ │ 8    │ 9    ││ 10   │ 11   │ │
  *                     │ ┼──────┼──────┼┼──────┼──────┼ │
  *                     │ │      │      ││      │      │ │
  *                     │ │ 12   │ 13   ││ 14   │ 15   │ │
- *                     │ ═══════╧═══════╗ ─────┼───── ╔ │
+ *                     │ �?�?�?�?�?�?�?╧�?�?�?�?�?�?�?╗ ─────┼───── ╔ │
  *                     └────────────────────────────────┘
  * </blockquote></pre>
  * combining { 18, 13,  9, 16 }, we can generate a texture connected to the right!
  * <pre><blockquote>
- * ╔══════╤═══════
+ * ╔�?�?�?�?�?�?╤�?�?�?�?�?�?�?
  * ║      │      │
  * ║ 16   │ 9    │
  * ╟──────┼──────┼
  * ║      │      │
  * ║ 18   │ 13   │
- * ╚══════╧═══════
+ * ╚�?�?�?�?�?�?╧�?�?�?�?�?�?�?
  * </blockquote></pre>
  *
  * combining { 18, 13, 11,  2 }, we can generate a texture, in the shape of an L (connected to the right, and up
@@ -60,7 +60,7 @@ import static com.cricketcraft.ctmlib.Dir.*;
  * ╟──────┼──────┼
  * ║      │      │
  * ║ 18   │ 13   │
- * ╚══════╧═══════
+ * ╚�?�?�?�?�?�?╧�?�?�?�?�?�?�?
  * </blockquote></pre>
  *
  * HAVE FUN!

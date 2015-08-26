@@ -1,7 +1,8 @@
-package com.cricketcraft.ctmlib;
+package team.chisel.ctmlib;
 
-import static com.cricketcraft.ctmlib.RenderBlocksCTM.SubSide.*;
-import static com.cricketcraft.ctmlib.RenderBlocksCTM.Vert.*;
+import static team.chisel.ctmlib.RenderBlocksCTM.SubSide.*;
+import static team.chisel.ctmlib.RenderBlocksCTM.Vert.*;
+
 import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -65,6 +66,7 @@ public class RenderBlocksCTM extends RenderBlocks {
 				inst.tessellator.setColorOpaque_F(inst.redCache[cacheID], inst.grnCache[cacheID], inst.bluCache[cacheID]);
 				inst.tessellator.setBrightness(inst.lightingCache[cacheID]);
 			}
+
 			u = cacheID == 1 || cacheID == 2 ? inst.maxU : inst.minU;
 			v = cacheID < 2 ? inst.maxV : inst.minV;
 
