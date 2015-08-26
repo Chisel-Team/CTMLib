@@ -8,65 +8,65 @@ import java.util.EnumMap;
 import net.minecraft.block.Block;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
+import team.chisel.api.IConnectable;
+import team.chisel.api.IFacade;
 
-import com.cricketcraft.chisel.api.IConnectable;
-import com.cricketcraft.chisel.api.IFacade;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 
 import static team.chisel.ctmlib.Dir.*;
 
-// @formatter:off
+//@formatter:off
 /**
- * The CTM renderer will draw the block's FACE using by assembling 4 quadrants from the 5 available block
- * textures.  The normal Texture.png is the blocks "unconnected" texture, and is used when CTM is disabled or the block
- * has nothing to connect to.  This texture has all of the outside corner quadrants  The texture-ctm.png contains the
- * rest of the quadrants.
- * <pre><blockquote>
- * ┌─────────────────�? ┌────────────────────────────────�?
- * │ texture.png     │ │ texture-ctm.png                │
- * │ ╔�?�?�?�?�?�?╤�?�?�?�?�?�?╗ │ │  ──────┼────── ║ ─────┼───── ║ │
- * │ ║      │      ║ │ │ │      │      │║      │      ║ │
- * │ ║ 16   │ 17   ║ │ │ │ 0    │ 1    │║ 2    │ 3    ║ │
- * │ ╟──────┼──────╢ │ │ ┼──────┼──────┼╟──────┼──────╢ │
- * │ ║      │      ║ │ │ │      │      │║      │      ║ │
- * │ ║ 18   │ 19   ║ │ │ │ 4    │ 5    │║ 6    │ 7    ║ │
- * │ ╚�?�?�?�?�?�?╧�?�?�?�?�?�?�? │ │  ──────┼────── ║ ─────┼───── ║ │
- * └─────────────────┘ │ �?�?�?�?�?�?�?╤�?�?�?�?�?�?�?�? ─────┼───── ╚ │
- *                     │ │      │      ││      │      │ │
- *                     │ │ 8    │ 9    ││ 10   │ 11   │ │
- *                     │ ┼──────┼──────┼┼──────┼──────┼ │
- *                     │ │      │      ││      │      │ │
- *                     │ │ 12   │ 13   ││ 14   │ 15   │ │
- *                     │ �?�?�?�?�?�?�?╧�?�?�?�?�?�?�?╗ ─────┼───── ╔ │
- *                     └────────────────────────────────┘
- * </blockquote></pre>
- * combining { 18, 13,  9, 16 }, we can generate a texture connected to the right!
- * <pre><blockquote>
- * ╔�?�?�?�?�?�?╤�?�?�?�?�?�?�?
- * ║      │      │
- * ║ 16   │ 9    │
- * ╟──────┼──────┼
- * ║      │      │
- * ║ 18   │ 13   │
- * ╚�?�?�?�?�?�?╧�?�?�?�?�?�?�?
- * </blockquote></pre>
- *
- * combining { 18, 13, 11,  2 }, we can generate a texture, in the shape of an L (connected to the right, and up
- * <pre><blockquote>
- * ║ ─────┼───── ╚
- * ║      │      │
- * ║ 2    │ 11   │
- * ╟──────┼──────┼
- * ║      │      │
- * ║ 18   │ 13   │
- * ╚�?�?�?�?�?�?╧�?�?�?�?�?�?�?
- * </blockquote></pre>
- *
- * HAVE FUN!
- * -CptRageToaster-
- */
-// @formatter:on
+* The CTM renderer will draw the block's FACE using by assembling 4 quadrants from the 5 available block
+* textures.  The normal Texture.png is the blocks "unconnected" texture, and is used when CTM is disabled or the block
+* has nothing to connect to.  This texture has all of the outside corner quadrants  The texture-ctm.png contains the
+* rest of the quadrants.
+* <pre><blockquote>
+* ┌─────────────────┐ ┌────────────────────────────────┐
+* │ texture.png     │ │ texture-ctm.png                │
+* │ ╔══════╤══════╗ │ │  ──────┼────── ║ ─────┼───── ║ │
+* │ ║      │      ║ │ │ │      │      │║      │      ║ │
+* │ ║ 16   │ 17   ║ │ │ │ 0    │ 1    │║ 2    │ 3    ║ │
+* │ ╟──────┼──────╢ │ │ ┼──────┼──────┼╟──────┼──────╢ │
+* │ ║      │      ║ │ │ │      │      │║      │      ║ │
+* │ ║ 18   │ 19   ║ │ │ │ 4    │ 5    │║ 6    │ 7    ║ │
+* │ ╚══════╧══════╝ │ │  ──────┼────── ║ ─────┼───── ║ │
+* └─────────────────┘ │ ═══════╤═══════╝ ─────┼───── ╚ │
+*                     │ │      │      ││      │      │ │
+*                     │ │ 8    │ 9    ││ 10   │ 11   │ │
+*                     │ ┼──────┼──────┼┼──────┼──────┼ │
+*                     │ │      │      ││      │      │ │
+*                     │ │ 12   │ 13   ││ 14   │ 15   │ │
+*                     │ ═══════╧═══════╗ ─────┼───── ╔ │
+*                     └────────────────────────────────┘
+* </blockquote></pre>
+* combining { 18, 13,  9, 16 }, we can generate a texture connected to the right!
+* <pre><blockquote>
+* ╔══════╤═══════
+* ║      │      │
+* ║ 16   │ 9    │
+* ╟──────┼──────┼
+* ║      │      │
+* ║ 18   │ 13   │
+* ╚══════╧═══════
+* </blockquote></pre>
+*
+* combining { 18, 13, 11,  2 }, we can generate a texture, in the shape of an L (connected to the right, and up
+* <pre><blockquote>
+* ║ ─────┼───── ╚
+* ║      │      │
+* ║ 2    │ 11   │
+* ╟──────┼──────┼
+* ║      │      │
+* ║ 18   │ 13   │
+* ╚══════╧═══════
+* </blockquote></pre>
+*
+* HAVE FUN!
+* -CptRageToaster-
+*/
+//@formatter:on
 public class CTM {
 
 	/** Some hardcoded offset values for the different corner indeces */
@@ -226,7 +226,7 @@ public class CTM {
 	 */
 	public boolean isConnected(IBlockAccess world, int x, int y, int z, ForgeDirection dir, Block block, int meta) {
 	
-		if (CTMLib.chiselLoaded() && connectionBlocked(world, x, y, z, dir)) {
+		if (CTMLib.chiselLoaded() && connectionBlocked(world, x, y, z, dir.ordinal())) {
 			return false;
 		}
 		
@@ -257,7 +257,7 @@ public class CTM {
 		return ret;
 	}
 
-	private boolean connectionBlocked(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
+	private boolean connectionBlocked(IBlockAccess world, int x, int y, int z, int side) {
 		Block block = world.getBlock(x, y, z);
 		if (block instanceof IConnectable) {
 			return !((IConnectable) block).canConnectCTM(world, x, y, z, side);
