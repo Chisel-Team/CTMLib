@@ -8,9 +8,9 @@ import java.util.EnumMap;
 import net.minecraft.block.Block;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
-import team.chisel.api.IConnectable;
-import team.chisel.api.IFacade;
 
+import com.cricketcraft.chisel.api.IConnectable;
+import com.cricketcraft.chisel.api.IFacade;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 
