@@ -1,3 +1,8 @@
+1.1.0:
+Changes
+- Repackage to team.chisel.ctmlib
+- Update to latest Chisel API
+
 1.0.1:
 Changes
 - inWorld is now protected in RenderBlocksCTM
