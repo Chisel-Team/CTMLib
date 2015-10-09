@@ -54,7 +54,6 @@ repositories {
 }
 
 dependencies {
-    compile "mcp.mobius.waila:Waila:${waila_version}_${minecraft_version}:dev"
     compile "team.chisel:Chisel:${chisel_version}:api"
     compile "org.projectlombok:lombok:1.16.4"
 }
