@@ -2,6 +2,8 @@ package team.chisel.ctmlib;
 
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import lombok.experimental.Delegate;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -16,7 +18,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * This class is used to split up a large IIcon into smaller "submapped" icons used for CTM and other texture manipulation.
  */
-public class TextureSubmap implements IIcon {
+public class TextureSubmap implements IIcon, ISubmap {
 
 	private static List<TextureSubmap> submaps = Lists.newArrayList();
 	private static TextureSubmap dummy = new TextureSubmap(null, 0, 0);
@@ -27,7 +29,7 @@ public class TextureSubmap implements IIcon {
 	private int width, height;
 	@Delegate
 	private IIcon baseIcon;
-	
+
 	protected IIcon[][] icons;
 
 	/**
@@ -49,20 +51,6 @@ public class TextureSubmap implements IIcon {
 	}
 
 	/**
-	 * The width, in icons, of the submap.
-	 */
-	public int getWidth() {
-		return width;
-	}
-
-	/**
-	 * The height, in icons, of the submap.
-	 */
-	public int getHeight() {
-		return height;
-	}
-
-	/**
 	 * The large "base" icon used for the submap.
 	 */
 	public IIcon getBaseIcon() {
@@ -70,12 +58,40 @@ public class TextureSubmap implements IIcon {
 	}
 
 	/**
+	 * Gets all the icons in this submap. This is an expensive operation as it first clones the entire 2D array.
+	 * 
+	 * @return All icons in this submap.
+	 */
+	public IIcon[][] getAllIcons() {
+		IIcon[][] ret = ArrayUtils.clone(icons);
+		for (int i = 0; i < ret.length; i++) {
+			ret[i] = ArrayUtils.clone(ret[i]);
+		}
+		return ret;
+	}
+
+	/* ==== ISubmap ==== */
+
+	/**
 	 * Finds and returns the sub-icon at the given coordinates. For example, if you have a 3 by 3 submap, calling {@code getSubIcon(1, 1)} will return the center subicon.
 	 */
+	@Override
 	public IIcon getSubIcon(int x, int y) {
 		x = x % icons.length;
 		return icons[x][y % icons[x].length];
 	}
+
+	@Override
+	public int getWidth() {
+		return width;
+	}
+
+	@Override
+	public int getHeight() {
+		return height;
+	}
+
+	/* ==== Internal Stitching Logic ==== */
 
 	/**
 	 * For internal use only, this is used to create the virtual "subicons" used in the map.
@@ -86,7 +102,7 @@ public class TextureSubmap implements IIcon {
 			ts.texturesStitched();
 		}
 	}
-	
+
 	public void texturesStitched() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
