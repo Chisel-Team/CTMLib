@@ -3,11 +3,15 @@ package team.chisel.ctmlib;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.util.ReportedException;
 import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * A convenience base class for CTM blocks. Any block using this must implement {@link ICTMBlock}.
@@ -31,11 +35,19 @@ public class CTMRenderer implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks rendererOld) {
-		int meta = world.getBlockMetadata(x, y, z);
-		RenderBlocks rb = getContext(rendererOld, block, world, ((ICTMBlock<?>)block).getManager(world, x, y, z, meta), meta);
-		boolean ret = rb.renderStandardBlock(block, x, y, z);
-		rb.unlockBlockBounds();
-		return ret;
+		try {
+			int meta = world.getBlockMetadata(x, y, z);
+			RenderBlocks rb = getContext(rendererOld, block, world, ((ICTMBlock<?>) block).getManager(world, x, y, z, meta), meta);
+			boolean ret = rb.renderStandardBlock(block, x, y, z);
+			rb.unlockBlockBounds();
+			return ret;
+		} catch (Throwable t) {
+			CrashReport crashreport = CrashReport.makeCrashReport(t, "Rendering CTM Block");
+			CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being rendered");
+			crashreportcategory.addCrashSection("Block name", GameRegistry.findUniqueIdentifierFor(block));
+			crashreportcategory.addCrashSection("Block metadata", world.getBlockMetadata(x, y, z));
+			throw new ReportedException(crashreport);
+		}		
 	}
 
 	protected RenderBlocks getContext(RenderBlocks rendererOld, Block block, IBlockAccess world, ISubmapManager manager, int meta) {
