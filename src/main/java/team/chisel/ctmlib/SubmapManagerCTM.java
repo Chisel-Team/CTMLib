@@ -1,5 +1,6 @@
 package team.chisel.ctmlib;
 
+import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -17,8 +18,10 @@ public class SubmapManagerCTM implements ISubmapManager {
 	@SideOnly(Side.CLIENT)
 	private static RenderBlocksCTM rb;
 
+	@Getter
 	private TextureSubmap submap, submapSmall;
-	private String textureName;
+	@Getter
+	private final String textureName;
 
 	/**
 	 * @param textureName
