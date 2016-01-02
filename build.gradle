@@ -118,8 +118,9 @@ publishing {
 
 println('Changelog:\n' + getChangelogText())
 
+
 String getChangelogText() {
-    def changelogFile = new File('changelog')
+    def changelogFile = file('changelog.txt')
     String str = ''
     int lineCount = 0
     boolean done = false
@@ -128,8 +129,16 @@ String getChangelogText() {
             return
         }
         if (it.size() > 1) {
-            def temp = "$it" + (lineCount == 0 ? '\n\n' : '\n')
-            str += (it.startsWith('-') ? '' : '\n') + "$temp"
+            def temp = it
+            if (lineCount == 0) {
+                temp = "Chisel ${version}"
+                temp = "<h2>$temp</h2>"
+            } else if (it.startsWith('-')) {
+                temp = "&nbsp;&nbsp;&nbsp;$temp"
+            } else {
+                temp = "<h4>$temp</h4>"
+            }
+            str += "$temp<br/>"
             lineCount++
             return
         } else {
@@ -138,6 +147,7 @@ String getChangelogText() {
     }
     return str
 }
+
 
 curse {
     dependsOn 'reobf'

@@ -1,3 +1,10 @@
+1.4.0:
+Changes
+- Add ISubmap, which provides getters for height and width (no longer required to be square)
+  - TextureSubmap implements this
+- Add custom crash reporting to CTMRenderer
+- Add getters to SubmapManagerCTM for submap and submapSmall
+
 1.3.0:
 Changes
 - Repackage to team.chisel.ctmlib
