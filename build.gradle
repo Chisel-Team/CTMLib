@@ -133,9 +133,9 @@ String getChangelogText() {
         if (it.size() > 1) {
             def temp = it
             if (lineCount == 0) {
-                temp = "Chisel ${version}"
+                temp = "${archivesBaseName} ${mod_version}.${buildnumber}"
                 temp = "<h2>$temp</h2>"
-            } else if (it.startsWith('-')) {
+            } else if (it.trim().startsWith('-')) {
                 temp = "&nbsp;&nbsp;&nbsp;$temp"
             } else {
                 temp = "<h4>$temp</h4>"
@@ -164,7 +164,7 @@ curseforge {
         changelogType = 'html'
         releaseType = 'release'
         mainArtifact(jar) {
-            displayName = "CTMLib - ${version}"
+            displayName = "CTMLib - ${mod_version}.${buildnumber}"
         }
         addArtifact deobfJar
         addArtifact sourcesJar
