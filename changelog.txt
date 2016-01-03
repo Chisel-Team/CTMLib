@@ -1,3 +1,7 @@
+1.4.1:
+Changes
+- Call preRenderSide and postRenderSide even when rendering standard block
+
 1.4.0:
 Changes
 - Add ISubmap, which provides getters for height and width (no longer required to be square)
