@@ -341,12 +341,11 @@ public class RenderBlocksCTM extends RenderBlocks {
 
 	@Override
 	public void renderFaceXNeg(Block block, double x, double y, double z, IIcon icon) {
+		pre(ForgeDirection.WEST);
 		if (!inWorld || hasOverrideBlockTexture() || submap == null) {
 			super.renderFaceXNeg(block, 0, 0, 0, icon);
 		} else {
 			int tex[] = ctm.getSubmapIndices(blockAccess, bx, by, bz, 4);
-
-			pre(ForgeDirection.WEST);
 
 			fillLightmap(brightnessBottomRight, brightnessTopRight, brightnessTopLeft, brightnessBottomLeft);
 			fillColormap(colorRedBottomRight, colorRedTopRight, colorRedTopLeft, colorRedBottomLeft, redmap);
@@ -361,19 +360,17 @@ public class RenderBlocksCTM extends RenderBlocks {
 			side(block, XNEG_RT, tex[2]);
 			getLight(0, 1);
 			side(block, XNEG_LT, tex[3]);
-
-			post(ForgeDirection.WEST);
 		}
+		post(ForgeDirection.WEST);
 	}
 
 	@Override
 	public void renderFaceXPos(Block block, double x, double y, double z, IIcon icon) {
+		pre(ForgeDirection.EAST);
 		if (!inWorld || hasOverrideBlockTexture() || submap == null) {
 			super.renderFaceXPos(block, 0, 0, 0, icon);
 		} else {
 			int tex[] = ctm.getSubmapIndices(blockAccess, bx, by, bz, 5);
-
-			pre(ForgeDirection.EAST);
 
 			fillLightmap(brightnessTopLeft, brightnessBottomLeft, brightnessBottomRight, brightnessTopRight);
 			fillColormap(colorRedTopLeft, colorRedBottomLeft, colorRedBottomRight, colorRedTopRight, redmap);
@@ -388,19 +385,17 @@ public class RenderBlocksCTM extends RenderBlocks {
 			side(block, XPOS_RT, tex[2]);
 			getLight(0, 1);
 			side(block, XPOS_LT, tex[3]);
-
-			post(ForgeDirection.EAST);
 		}
+		post(ForgeDirection.EAST);
 	}
 
 	@Override
 	public void renderFaceZNeg(Block block, double x, double y, double z, IIcon icon) {
+		pre(ForgeDirection.NORTH);
 		if (!inWorld || hasOverrideBlockTexture() || submap == null) {
 			super.renderFaceZNeg(block, 0, 0, 0, icon);
 		} else {
 			int tex[] = ctm.getSubmapIndices(blockAccess, bx, by, bz, 2);
-
-			pre(ForgeDirection.NORTH);
 
 			fillLightmap(brightnessBottomRight, brightnessTopRight, brightnessTopLeft, brightnessBottomLeft);
 			fillColormap(colorRedBottomRight, colorRedTopRight, colorRedTopLeft, colorRedBottomLeft, redmap);
@@ -415,19 +410,18 @@ public class RenderBlocksCTM extends RenderBlocks {
 			side(block, ZNEG_RT, tex[2]);
 			getLight(0, 1);
 			side(block, ZNEG_LT, tex[3]);
-
-			post(ForgeDirection.NORTH);
 		}
+		post(ForgeDirection.NORTH);
 	}
 
 	@Override
 	public void renderFaceZPos(Block block, double x, double y, double z, IIcon icon) {
+		pre(ForgeDirection.SOUTH);
 		if (!inWorld || hasOverrideBlockTexture() || submap == null) {
 			super.renderFaceZPos(block, 0, 0, 0, icon);
 		} else {
 			int tex[] = ctm.getSubmapIndices(blockAccess, bx, by, bz, 3);
 
-			pre(ForgeDirection.SOUTH);
 
 			fillLightmap(brightnessBottomLeft, brightnessBottomRight, brightnessTopRight, brightnessTopLeft);
 			fillColormap(colorRedBottomLeft, colorRedBottomRight, colorRedTopRight, colorRedTopLeft, redmap);
@@ -442,19 +436,17 @@ public class RenderBlocksCTM extends RenderBlocks {
 			side(block, ZPOS_RT, tex[2]);
 			getLight(0, 1);
 			side(block, ZPOS_LT, tex[3]);
-
-			post(ForgeDirection.SOUTH);
 		}
+		post(ForgeDirection.SOUTH);
 	}
 
 	@Override
 	public void renderFaceYNeg(Block block, double x, double y, double z, IIcon icon) {
+		pre(ForgeDirection.DOWN);
 		if (!inWorld || hasOverrideBlockTexture() || submap == null) {
 			super.renderFaceYNeg(block, 0, 0, 0, icon);
 		} else {
 			int tex[] = ctm.getSubmapIndices(blockAccess, bx, by, bz, 0);
-
-			pre(ForgeDirection.DOWN);
 
 			fillLightmap(brightnessBottomLeft, brightnessBottomRight, brightnessTopRight, brightnessTopLeft);
 			fillColormap(colorRedBottomLeft, colorRedBottomRight, colorRedTopRight, colorRedTopLeft, redmap);
@@ -469,20 +461,18 @@ public class RenderBlocksCTM extends RenderBlocks {
 			side(block, YNEG_RT, tex[2]);
 			getLight(0, 1);
 			side(block, YNEG_LT, tex[3]);
-
-			post(ForgeDirection.DOWN);
 		}
+		post(ForgeDirection.DOWN);
 	}
 
 	@Override
 	public void renderFaceYPos(Block block, double x, double y, double z, IIcon icon) {
+		pre(ForgeDirection.UP);
 		if (!inWorld || hasOverrideBlockTexture() || submap == null) {
 			super.renderFaceYPos(block, 0, 0, 0, icon);
 		} else {
 			int tex[] = ctm.getSubmapIndices(blockAccess, bx, by, bz, 1);
-
-			pre(ForgeDirection.UP);
-
+			
 			fillLightmap(brightnessTopRight, brightnessTopLeft, brightnessBottomLeft, brightnessBottomRight);
 			fillColormap(colorRedTopRight, colorRedTopLeft, colorRedBottomLeft, colorRedBottomRight, redmap);
 			fillColormap(colorGreenTopRight, colorGreenTopLeft, colorGreenBottomLeft, colorGreenBottomRight, grnmap);
@@ -496,9 +486,8 @@ public class RenderBlocksCTM extends RenderBlocks {
 			side(block, YPOS_RT, tex[2]);
 			getLight(0, 1);
 			side(block, YPOS_LT, tex[3]);
-
-			post(ForgeDirection.UP);
 		}
+		post(ForgeDirection.UP);
 	}
 
 	protected void pre(ForgeDirection face) {
